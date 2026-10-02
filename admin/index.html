@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b1120">
+<title>GPX Apps · Administração</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='26' fill='%2322d3ee' text-anchor='middle'%3EGPX%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1120;--bg2:#111a2e;--card:#14203a;--line:#22314f;--txt:#e8eefc;--mut:#94a3c4;--acc:#22d3ee;--acc2:#a78bfa;--err:#f87171}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;line-height:1.5}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(34,211,238,.14),transparent 55%),radial-gradient(ellipse at 90% 10%,rgba(167,139,250,.14),transparent 55%);pointer-events:none}
+.wrap{position:relative;max-width:560px;margin:0 auto;padding:28px 16px 40px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
+.logo b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120;font-size:.78rem}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.hidden{display:none!important}
+
+/* login */
+.login{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px 22px;margin-top:40px}
+.login h1{font-size:1.4rem;margin-bottom:4px}
+.login p{color:var(--mut);font-size:.92rem;margin-bottom:20px}
+label{display:block;font-size:.82rem;color:var(--mut);margin:12px 0 6px}
+input{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--txt);font:inherit;font-size:1rem}
+input:focus{outline:2px solid var(--acc);border-color:transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:20px;padding:14px;border-radius:12px;border:0;font:inherit;font-weight:700;font-size:1rem;cursor:pointer;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120}
+.btn:disabled{opacity:.6}
+.btn-sm{width:auto;margin:0;padding:8px 14px;font-size:.85rem;background:transparent;color:var(--txt);border:1px solid var(--line)}
+.msg{margin-top:14px;font-size:.9rem;color:var(--err);min-height:1.2em}
+.loading{text-align:center;color:var(--mut);margin-top:80px}
+
+/* painel */
+.hello{margin-bottom:22px}
+.hello h1{font-size:1.5rem}
+.hello p{color:var(--mut);font-size:.9rem}
+h2{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin:26px 0 10px}
+.grid{display:grid;gap:10px}
+.card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;transition:border-color .15s,transform .15s;color:inherit;text-decoration:none}
+.card:active{transform:scale(.98)}
+.card:hover{border-color:var(--acc)}
+.ic{flex:0 0 46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:1.4rem;background:var(--c,#1e293b)}
+.card b{display:block;font-size:1rem}
+.card small{color:var(--mut);font-size:.82rem}
+.card .go{margin-left:auto;color:var(--mut);font-size:1.2rem}
+.small-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.small-grid .card{padding:12px}
+.small-grid .ic{flex-basis:36px;height:36px;font-size:1.05rem;border-radius:10px}
+.small-grid b{font-size:.9rem}
+footer{margin-top:30px;text-align:center;color:var(--mut);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="logo"><b>GPX</b>Administração</div>
+    <button id="btnSair" class="btn btn-sm hidden">Sair</button>
+  </div>
+
+  <div id="carregando" class="loading">Verificando acesso…</div>
+
+  <!-- LOGIN -->
+  <form id="telaLogin" class="login hidden" autocomplete="on">
+    <h1>Área restrita</h1>
+    <p>Entre com a sua conta de administrador.</p>
+    <label for="email">E-mail</label>
+    <input id="email" type="email" autocomplete="username" required>
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" autocomplete="current-password" required>
+    <button id="btnEntrar" class="btn" type="submit">Entrar</button>
+    <div id="msg" class="msg"></div>
+  </form>
+
+  <!-- PAINEL -->
+  <div id="telaPainel" class="hidden">
+    <div class="hello">
+      <h1>Olá, Gustavo 👋</h1>
+      <p id="quem"></p>
+    </div>
+
+    <h2>Gerenciar clientes</h2>
+    <div class="grid">
+      <a class="card" href="https://bar.gpxapps.app.br/admin/" target="_blank" rel="noopener">
+        <span class="ic" style="--c:#14532d">⚙️</span>
+        <span><b>Administrador Apps</b><small>Bares e salões: clientes, mensalidades, suspender</small></span>
+        <span class="go">›</span>
+      </a>
+      <a class="card" href="https://inscricoes.gpxapps.app.br/admin/" target="_blank" rel="noopener">
+        <span class="ic" style="--c:#78350f">🎟️</span>
+        <span><b>Administrador Inscrições</b><small>Organizadores, eventos e inscritos</small></span>
+        <span class="go">›</span>
+      </a>
+    </div>
+
+    <h2>Apps</h2>
+    <div class="small-grid">
+      <a class="card" href="https://bar.gpxapps.app.br/central/" target="_blank" rel="noopener"><span class="ic" style="--c:#14532d">🍺</span><b>Central do Bar</b></a>
+      <a class="card" href="https://bar.gpxapps.app.br/garcom/" target="_blank" rel="noopener"><span class="ic" style="--c:#14532d">🧑‍🍳</span><b>App do Garçom</b></a>
+      <a class="card" href="https://salao.gpxapps.app.br/admin/" target="_blank" rel="noopener"><span class="ic" style="--c:#831843">💇</span><b>Painel do Salão</b></a>
+      <a class="card" href="https://gpxapps.app.br/" target="_blank" rel="noopener"><span class="ic" style="--c:#1e3a8a">🌐</span><b>Site público</b></a>
+    </div>
+
+    <h2>Ferramentas</h2>
+    <div class="small-grid">
+      <a class="card" href="https://console.firebase.google.com/project/atendimento-bar/overview" target="_blank" rel="noopener"><span class="ic" style="--c:#7c2d12">🔥</span><b>Firebase Bar/Salão</b></a>
+      <a class="card" href="https://console.firebase.google.com/project/inscricoes-eventos/overview" target="_blank" rel="noopener"><span class="ic" style="--c:#7c2d12">🔥</span><b>Firebase Inscrições</b></a>
+      <a class="card" href="https://www.mercadopago.com.br/developers/panel/app" target="_blank" rel="noopener"><span class="ic" style="--c:#0c4a6e">💳</span><b>Mercado Pago</b></a>
+      <a class="card" href="https://github.com/gp-apps-netizen?tab=repositories" target="_blank" rel="noopener"><span class="ic" style="--c:#27272a">🐙</span><b>GitHub</b></a>
+      <a class="card" href="https://registro.br/painel/" target="_blank" rel="noopener"><span class="ic" style="--c:#14532d">🌎</span><b>Registro.br</b></a>
+      <a class="card" href="https://wa.me/5516981469202" target="_blank" rel="noopener"><span class="ic" style="--c:#065f46">💬</span><b>Meu WhatsApp</b></a>
+    </div>
+
+    <footer>gpxapps.app.br/admin</footer>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAeSmdHNn7LTk60DKO3DCGOTvPaNHdzMF4",
+  authDomain: "atendimento-bar.firebaseapp.com",
+  projectId: "atendimento-bar",
+  storageBucket: "atendimento-bar.firebasestorage.app",
+  messagingSenderId: "92179047707",
+  appId: "1:92179047707:web:08d82fc86c7da2f0215fbe"
+};
+const SUPER = "godoygpx@gmail.com";   // único login com acesso a esta página
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const $ = id => document.getElementById(id);
+
+function mostrar(tela){
+  ["carregando","telaLogin","telaPainel"].forEach(t => $(t).classList.toggle("hidden", t !== tela));
+  $("btnSair").classList.toggle("hidden", tela !== "telaPainel");
+}
+
+onAuthStateChanged(auth, async user => {
+  if (!user) return mostrar("telaLogin");
+  if ((user.email || "").toLowerCase() !== SUPER) {
+    await signOut(auth);
+    $("msg").textContent = "Este usuário não tem acesso à administração.";
+    return mostrar("telaLogin");
+  }
+  $("quem").textContent = "Conectado como " + user.email;
+  mostrar("telaPainel");
+});
+
+$("telaLogin").addEventListener("submit", async e => {
+  e.preventDefault();
+  $("msg").textContent = "";
+  $("btnEntrar").disabled = true;
+  $("btnEntrar").textContent = "Entrando…";
+  try {
+    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("senha").value);
+  } catch (err) {
+    const c = err.code || "";
+    $("msg").textContent =
+      c.includes("invalid-credential") || c.includes("wrong-password") || c.includes("user-not-found") ? "E-mail ou senha incorretos." :
+      c.includes("too-many-requests") ? "Muitas tentativas. Aguarde alguns minutos." :
+      c.includes("network") ? "Sem conexão com a internet." :
+      "Não foi possível entrar (" + c + ").";
+  } finally {
+    $("btnEntrar").disabled = false;
+    $("btnEntrar").textContent = "Entrar";
+  }
+});
+
+$("btnSair").addEventListener("click", () => signOut(auth));
+</script>
+</body>
+</html>
