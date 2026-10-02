@@ -1,1 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPX Apps · Sistemas para eventos, bares e salões</title>
+<meta name="description" content="Aplicativos simples e na nuvem para inscrições de eventos com QR Code, atendimento de bares e agenda de salões. Funciona no celular, sem instalar nada.">
+<meta property="og:title" content="GPX Apps · Sistemas para eventos, bares e salões">
+<meta property="og:description" content="Inscrições com QR Code e Pix, comandas digitais para bares e agendamento online para salões.">
+<meta property="og:url" content="https://gpxapps.app.br/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='26' fill='%2322d3ee' text-anchor='middle'%3EGPX%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1120; --bg2:#111a2e; --card:#14203a; --line:#22314f;
+  --txt:#e8eefc; --mut:#94a3c4; --acc:#22d3ee; --acc2:#a78bfa;
+  --ev:#f59e0b; --bar:#22c55e; --sal:#ec4899; --wa:#25d366;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
 
+/* NAV */
+nav{position:sticky;top:0;z-index:20;background:rgba(11,17,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem}
+.logo b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120;font-size:.8rem}
+.nav-links{display:flex;gap:22px;align-items:center;font-size:.92rem;color:var(--mut)}
+.nav-links a:hover{color:var(--txt)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:12px;font-weight:700;font-size:.95rem;transition:transform .15s,box-shadow .15s;cursor:pointer;border:0}
+.btn:hover{transform:translateY(-2px)}
+.btn-pri{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120;box-shadow:0 8px 30px -8px rgba(34,211,238,.5)}
+.btn-wa{background:var(--wa);color:#05230f}
+.btn-ghost{border:1px solid var(--line);color:var(--txt);background:transparent}
+.btn-sm{padding:8px 16px;font-size:.85rem}
+@media(max-width:720px){.nav-links a:not(.btn){display:none}}
+
+/* HERO */
+.hero{position:relative;padding:90px 0 70px;text-align:center}
+.hero::before{content:"";position:absolute;inset:-200px 0 auto;height:600px;background:radial-gradient(ellipse at 30% 30%,rgba(34,211,238,.18),transparent 60%),radial-gradient(ellipse at 70% 20%,rgba(167,139,250,.18),transparent 60%);pointer-events:none}
+.pill{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:99px;font-size:.8rem;color:var(--mut);margin-bottom:22px;background:var(--bg2)}
+.hero h1{font-size:clamp(2rem,6vw,3.6rem);line-height:1.12;font-weight:800;letter-spacing:-.02em;max-width:820px;margin:0 auto}
+.grad{background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);font-size:1.1rem;max-width:620px;margin:20px auto 32px}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.trust{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:44px;color:var(--mut);font-size:.88rem}
+.trust span{display:flex;align-items:center;gap:6px}
+.trust i{color:var(--acc);font-style:normal}
+
+/* SECTIONS */
+section{padding:70px 0}
+.sec-head{text-align:center;margin-bottom:44px}
+.sec-head small{color:var(--acc);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.75rem}
+.sec-head h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-top:8px;letter-spacing:-.01em}
+.sec-head p{color:var(--mut);max-width:560px;margin:10px auto 0}
+
+/* PRODUCTS */
+.prod{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:40px;margin-bottom:28px;position:relative;overflow:hidden}
+.prod:nth-child(even){grid-template-columns:1fr 1.05fr}
+.prod:nth-child(even) .mock{order:-1}
+.prod::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(90px);opacity:.18;right:-80px;top:-80px;background:var(--c)}
+.tag{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);padding:5px 12px;border-radius:99px;margin-bottom:14px}
+.prod h3{font-size:1.7rem;font-weight:800;line-height:1.2;margin-bottom:10px}
+.prod .lead{color:var(--mut);margin-bottom:20px}
+.feats{list-style:none;display:grid;gap:10px;margin-bottom:24px}
+.feats li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem}
+.feats li::before{content:"✓";flex:0 0 22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:.75rem;font-weight:800;background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);margin-top:2px}
+.price-note{font-size:.88rem;color:var(--mut);border-left:3px solid var(--c);padding-left:12px;margin-bottom:22px}
+.price-note b{color:var(--txt)}
+
+/* MOCKUPS */
+.mock{display:flex;justify-content:center;position:relative;z-index:1}
+.phone{width:250px;background:#0a0f1c;border:8px solid #1e293b;border-radius:34px;padding:16px 12px 20px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.phone .notch{width:70px;height:6px;background:#1e293b;border-radius:9px;margin:0 auto 14px}
+.scr-title{font-size:.72rem;color:var(--mut);margin-bottom:4px}
+.scr-h{font-weight:800;font-size:1rem;margin-bottom:12px}
+.box{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px;font-size:.75rem}
+.row{display:flex;justify-content:space-between;align-items:center}
+.chip{font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:99px}
+.qr{width:120px;height:120px;margin:6px auto 8px;background:
+  conic-gradient(from 90deg at 18% 18%,#fff 0 25%,transparent 0) 0 0/40px 40px,
+  repeating-linear-gradient(90deg,#fff 0 6px,transparent 6px 12px),
+  repeating-linear-gradient(0deg,#0a0f1c 0 9px,transparent 9px 15px);
+  background-color:#fff;border:6px solid #fff;border-radius:6px;position:relative}
+.qr::before,.qr::after{content:"";position:absolute;width:30px;height:30px;border:6px solid #0a0f1c;background:#fff;box-shadow:inset 0 0 0 5px #fff,inset 0 0 0 12px #0a0f1c}
+.qr::before{top:0;left:0}.qr::after{top:0;right:0}
+.bar-btn{display:block;text-align:center;padding:9px;border-radius:10px;font-weight:700;font-size:.75rem;margin-top:8px}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}
+.slots span{text-align:center;padding:6px 0;border-radius:8px;border:1px solid var(--line);font-size:.7rem}
+.slots .on{background:var(--sal);border-color:var(--sal);color:#fff;font-weight:700}
+.slots .off{opacity:.35;text-decoration:line-through}
+
+@media(max-width:820px){
+  .prod,.prod:nth-child(even){grid-template-columns:1fr;padding:28px 22px;gap:30px}
+  .prod:nth-child(even) .mock{order:0}
+}
+
+/* WHY */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.why{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px}
+.why .ic{font-size:1.6rem;margin-bottom:10px}
+.why h4{font-size:1.05rem;margin-bottom:6px}
+.why p{color:var(--mut);font-size:.92rem}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:s}
+.step{padding:24px;border-radius:18px;border:1px dashed var(--line);position:relative}
+.step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120;font-weight:800;margin-bottom:12px}
+.step h4{margin-bottom:4px}
+.step p{color:var(--mut);font-size:.92rem}
+
+/* FAQ */
+.faq{max-width:760px;margin:0 auto}
+details{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--acc);font-size:1.3rem;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--mut);margin-top:10px;font-size:.94rem}
+
+/* CTA FINAL */
+.final{background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(167,139,250,.12));border:1px solid var(--line);border-radius:28px;padding:56px 28px;text-align:center}
+.final h2{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;margin-bottom:10px}
+.final p{color:var(--mut);margin-bottom:26px}
+
+/* ACCESS */
+.access{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+.access a{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;font-weight:600;font-size:.92rem;transition:border-color .15s}
+.access a:hover{border-color:var(--acc)}
+.access em{font-style:normal;font-size:1.3rem}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:.85rem;margin-top:40px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.wa-float{position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 30px -6px rgba(37,211,102,.6);z-index:30}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="logo"><b>GPX</b>GPX Apps</a>
+    <div class="nav-links">
+      <a href="#produtos">Produtos</a>
+      <a href="#como">Como funciona</a>
+      <a href="#duvidas">Dúvidas</a>
+      <a href="#acesso">Área do cliente</a>
+      <a class="btn btn-pri btn-sm js-wa" href="#">Fale comigo</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="pill">🇧🇷 Sistemas feitos no Brasil, com suporte direto pelo WhatsApp</span>
+    <h1>Seu negócio organizado <span class="grad">direto no celular</span></h1>
+    <p>Inscrições de eventos com QR Code e Pix, comandas digitais para bares e agenda online para salões. Sem instalar nada, sem complicação.</p>
+    <div class="cta-row">
+      <a class="btn btn-pri" href="#produtos">Conhecer os apps</a>
+      <a class="btn btn-wa js-wa" href="#">💬 Pedir uma demonstração</a>
+    </div>
+    <div class="trust">
+      <span><i>●</i> Funciona em qualquer celular</span>
+      <span><i>●</i> Dados salvos na nuvem</span>
+      <span><i>●</i> Atualizações sem custo extra</span>
+    </div>
+  </div>
+</header>
+
+<section id="produtos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <small>Produtos</small>
+      <h2>Escolha o app para o seu negócio</h2>
+      <p>Cada sistema tem um painel para você administrar e um link público para seus clientes.</p>
+    </div>
+
+    <!-- INSCRIÇÕES -->
+    <article class="prod reveal" style="--c:var(--ev)">
+      <div>
+        <span class="tag">🎟️ Para organizadores de eventos</span>
+        <h3>Inscrições de Eventos</h3>
+        <p class="lead">Página de inscrição pronta para divulgar, pagamento por Pix automático e check-in na entrada lendo o QR Code do voucher.</p>
+        <ul class="feats">
+          <li>Link de inscrição personalizado para cada evento</li>
+          <li>Voucher com QR Code enviado na hora para o participante</li>
+          <li>Pix automático: o dinheiro cai direto na sua conta</li>
+          <li>Check-in rápido pelo celular, com a câmera</li>
+          <li>Lista de inscritos, pagos e presentes em tempo real</li>
+          <li>Ideal para passeios ciclísticos, corridas, MTB, festas e cursos</li>
+        </ul>
+        <p class="price-note"><b>Sem mensalidade para o organizador.</b> A taxa de serviço é somada ao valor da inscrição e paga pelo participante.</p>
+        <a class="btn btn-ghost js-wa" data-msg="Olá! Tenho interesse no app de Inscrições de Eventos." href="#">Quero para meu evento →</a>
+      </div>
+      <div class="mock">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="scr-title">Seu voucher</div>
+          <div class="scr-h">Passeio Ciclístico 2026</div>
+          <div class="box" style="text-align:center">
+            <div class="qr"></div>
+            <b>João da Silva</b><br><span style="color:var(--mut)">Inscrição #0482</span>
+          </div>
+          <div class="box row"><span>Pagamento</span><span class="chip" style="background:rgba(34,197,94,.18);color:#4ade80">✓ Pix confirmado</span></div>
+          <div class="box row"><span>Kit</span><span>Camiseta M</span></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- BAR -->
+    <article class="prod reveal" style="--c:var(--bar)">
+      <div>
+        <span class="tag">🍺 Para bares e restaurantes</span>
+        <h3>Atendimento de Bar</h3>
+        <p class="lead">Garçons lançam pedidos no celular, a central recebe na hora e o cliente acompanha a comanda da mesa pelo QR Code.</p>
+        <ul class="feats">
+          <li>App do garçom com login individual</li>
+          <li>Central que recebe e acompanha o status dos pedidos</li>
+          <li>Cardápio e preços que você mesmo atualiza</li>
+          <li>Divisão da conta por item consumido ou em partes iguais</li>
+          <li>QR Code na mesa: cliente chama o garçom e vê o consumo</li>
+          <li>Fechamento com taxa de serviço e relatório diário</li>
+        </ul>
+        <p class="price-note"><b>Mensalidade fixa</b>, com período de teste para você conhecer antes de contratar.</p>
+        <a class="btn btn-ghost js-wa" data-msg="Olá! Tenho interesse no app de Atendimento de Bar." href="#">Quero para meu bar →</a>
+      </div>
+      <div class="mock">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="scr-title">Mesa 07 · 4 pessoas</div>
+          <div class="scr-h">Comanda</div>
+          <div class="box row"><span>2× Chopp 500ml</span><span>R$ 32,00</span></div>
+          <div class="box row"><span>1× Porção de fritas</span><span>R$ 38,00</span></div>
+          <div class="box row"><span>3× Refrigerante</span><span class="chip" style="background:rgba(245,158,11,.18);color:#fbbf24">Preparando</span></div>
+          <div class="box row" style="font-weight:800"><span>Total + 10%</span><span>R$ 103,40</span></div>
+          <span class="bar-btn" style="background:var(--bar);color:#05230f">🔔 Chamar garçom</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SALÃO -->
+    <article class="prod reveal" style="--c:var(--sal)">
+      <div>
+        <span class="tag">💇 Para salões e barbearias</span>
+        <h3>Agenda de Salão</h3>
+        <p class="lead">Seus clientes marcam horário sozinhos por um link, e você controla agenda, profissionais, pacotes e comissões num só lugar.</p>
+        <ul class="feats">
+          <li>Link de agendamento online para enviar aos clientes</li>
+          <li>Agenda por profissional, sem conflito de horários</li>
+          <li>Serviços, preços e pacotes configuráveis</li>
+          <li>Cálculo automático de comissões</li>
+          <li>Lembretes pelo WhatsApp</li>
+          <li>Relatórios de atendimentos e faturamento</li>
+        </ul>
+        <p class="price-note"><b>Mensalidade fixa</b>, com período de teste para você conhecer antes de contratar.</p>
+        <a class="btn btn-ghost js-wa" data-msg="Olá! Tenho interesse no app Agenda de Salão." href="#">Quero para meu salão →</a>
+      </div>
+      <div class="mock">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="scr-title">Agendar horário</div>
+          <div class="scr-h">Corte + Escova</div>
+          <div class="box row"><span>Profissional</span><b>Ana</b></div>
+          <div class="box">
+            <div class="row"><span>Sexta, 09/10</span><span style="color:var(--mut)">Horários</span></div>
+            <div class="slots">
+              <span class="off">09:00</span><span>10:00</span><span class="on">11:00</span>
+              <span>14:00</span><span class="off">15:00</span><span>16:00</span>
+            </div>
+          </div>
+          <span class="bar-btn" style="background:var(--sal);color:#fff">Confirmar agendamento</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <small>Por que GPX Apps</small>
+      <h2>Simples para você, prático para seu cliente</h2>
+    </div>
+    <div class="grid3">
+      <div class="why reveal"><div class="ic">📱</div><h4>Nada para instalar</h4><p>Abre no navegador e pode ser fixado na tela inicial do celular como um aplicativo.</p></div>
+      <div class="why reveal"><div class="ic">☁️</div><h4>Tudo na nuvem</h4><p>Dados sincronizados em tempo real entre celulares, tablet e computador.</p></div>
+      <div class="why reveal"><div class="ic">🔒</div><h4>Acesso protegido</h4><p>Login individual com e-mail e senha para cada pessoa da sua equipe.</p></div>
+      <div class="why reveal"><div class="ic">🤝</div><h4>Suporte de verdade</h4><p>Você fala direto com quem desenvolve o sistema, pelo WhatsApp.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <small>Como funciona</small>
+      <h2>Comece em poucos dias</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h4>Converse comigo</h4><p>Conte como funciona seu evento ou estabelecimento pelo WhatsApp.</p></div>
+      <div class="step reveal"><h4>Eu configuro tudo</h4><p>Crio seu acesso com seu nome, cardápio, serviços ou dados do evento.</p></div>
+      <div class="step reveal"><h4>Você testa</h4><p>Use com sua equipe e seus clientes e ajuste o que precisar.</p></div>
+      <div class="step reveal"><h4>Pronto para usar</h4><p>Divulgue seu link e acompanhe tudo pelo painel.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="duvidas">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <small>Dúvidas</small>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Preciso baixar algum aplicativo?</summary><p>Não. Os sistemas funcionam pelo navegador do celular ou computador. No Android e no iPhone dá para adicionar o atalho à tela inicial e usar como um app.</p></details>
+      <details><summary>Como recebo os pagamentos das inscrições?</summary><p>Pelo Pix automático, o valor vai direto para a sua conta e a inscrição é confirmada sozinha. O voucher só é liberado depois que o pagamento é confirmado.</p></details>
+      <details><summary>Quanto custa?</summary><p>Inscrições de Eventos não tem mensalidade para o organizador. Bar e Salão têm mensalidade fixa. Chame no WhatsApp para receber os valores atualizados.</p></details>
+      <details><summary>Posso testar antes de contratar?</summary><p>Sim. Você usa por um período de teste com seus dados reais antes de decidir.</p></details>
+      <details><summary>Meus dados ficam seguros?</summary><p>Ficam armazenados em servidores do Google (Firebase), com acesso restrito por login. Cada cliente só enxerga os próprios dados.</p></details>
+      <details><summary>Dá para personalizar para o meu negócio?</summary><p>Sim. Nome, logo, cardápio, serviços, profissionais e regras do evento são configurados para você.</p></details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final reveal">
+      <h2>Vamos colocar seu negócio no celular?</h2>
+      <p>Me chama no WhatsApp e eu mostro o app funcionando, sem compromisso.</p>
+      <div class="cta-row">
+        <a class="btn btn-wa js-wa" href="#">💬 Chamar no WhatsApp</a>
+        <a class="btn btn-ghost js-mail" href="#">✉️ Enviar e-mail</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="acesso" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:10px">
+      <small>Área do cliente</small>
+      <h2>Já é cliente? Acesse seu painel</h2>
+    </div>
+    <div class="access reveal">
+      <a href="https://inscricoes.gpxapps.app.br/admin/"><em>🎟️</em>Painel de Inscrições</a>
+      <a href="https://bar.gpxapps.app.br/central/"><em>🍺</em>Central do Bar</a>
+      <a href="https://bar.gpxapps.app.br/garcom/"><em>🧑‍🍳</em>App do Garçom</a>
+      <a href="https://salao.gpxapps.app.br/admin/"><em>💇</em>Painel do Salão</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="ano"></span> GPX Apps · gpxapps.app.br</span>
+    <span>Feito por Gustavo</span>
+  </div>
+</footer>
+
+<a class="wa-float js-wa" href="#" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.3.6 4.5 1.8 6.4L3 29l7.2-1.9c1.8 1 3.8 1.5 5.8 1.5 7 0 12.7-5.6 12.7-12.6S23 3 16 3zm0 23.1c-1.9 0-3.7-.5-5.3-1.4l-.4-.2-4.3 1.1 1.1-4.2-.3-.4a10.4 10.4 0 0 1-1.6-5.5C5.2 9.8 10 5.1 16 5.1s10.8 4.7 10.8 10.5S22 26.1 16 26.1zm5.9-7.8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.6 8.6 0 0 1-4.3-3.7c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7c0 1.6 1.2 3.1 1.3 3.3s2.3 3.5 5.6 4.9c2.1.9 2.9 1 4 .8.6-.1 1.9-.8 2.2-1.5s.3-1.4.2-1.5-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+/* ====== EDITE AQUI ====== */
+const WHATSAPP = "5516981469202";   // seu número com DDI 55 + DDD, só números
+const EMAIL    = "godoygpx@gmail.com";
+/* ======================== */
+
+const msgPadrao = "Olá! Vi o site GPX Apps e gostaria de saber mais sobre os aplicativos.";
+document.querySelectorAll(".js-wa").forEach(a=>{
+  const msg = a.dataset.msg || msgPadrao;
+  a.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  a.target = "_blank"; a.rel = "noopener";
+});
+document.querySelectorAll(".js-mail").forEach(a=>{
+  a.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Interesse nos apps GPX")}`;
+});
+document.getElementById("ano").textContent = new Date().getFullYear();
+
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
