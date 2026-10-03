@@ -10,7 +10,11 @@
 <meta property="og:url" content="https://gpxapps.app.br/">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0f172a">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='26' fill='%2322d3ee' text-anchor='middle'%3EGPX%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/icons/favicon-48.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta property="og:image" content="https://gpxapps.app.br/icons/logo-512.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,6 +34,7 @@ a{color:inherit;text-decoration:none}
 nav{position:sticky;top:0;z-index:20;background:rgba(11,17,32,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem}
+.logo img{width:40px;height:40px;border-radius:50%;display:block}
 .logo b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120;font-size:.8rem}
 .nav-links{display:flex;gap:22px;align-items:center;font-size:.92rem;color:var(--mut)}
 .nav-links a:hover{color:var(--txt)}
@@ -148,7 +153,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <nav>
   <div class="wrap">
-    <a href="#" class="logo"><b>GPX</b>GPX Apps</a>
+    <a href="#" class="logo"><img src="/icons/logo-192.png" alt="" width="40" height="40">GPX Apps</a>
     <div class="nav-links">
       <a href="#produtos">Produtos</a>
       <a href="#como">Como funciona</a>
