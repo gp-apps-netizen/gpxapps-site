@@ -6,7 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0b1120">
 <title>GPX Apps · Administração</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='26' fill='%2322d3ee' text-anchor='middle'%3EGPX%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -17,6 +18,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
 body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(34,211,238,.14),transparent 55%),radial-gradient(ellipse at 90% 10%,rgba(167,139,250,.14),transparent 55%);pointer-events:none}
 .wrap{position:relative;max-width:560px;margin:0 auto;padding:28px 16px 40px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
+.logo img{width:38px;height:38px;border-radius:50%;display:block}
 .logo b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0b1120;font-size:.78rem}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
 .hidden{display:none!important}
@@ -54,13 +56,13 @@ h2{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ac
 footer{margin-top:30px;text-align:center;color:var(--mut);font-size:.8rem}
 </style>
 <link rel="manifest" id="manifestLink">
-<link rel="apple-touch-icon" id="appleIcon">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 <div class="wrap">
   <div class="top">
-    <div class="logo"><b>GPX</b>Administração</div>
+    <div class="logo"><img src="/icons/logo-192.png" alt="" width="38" height="38">Administração</div>
     <button id="btnSair" class="btn btn-sm hidden">Sair</button>
   </div>
 
@@ -178,20 +180,13 @@ $("telaLogin").addEventListener("submit", async e => {
 $("btnSair").addEventListener("click", () => signOut(auth));
 </script>
 <script>
-/* ---- PWA: ícone, manifesto e service worker (permite "Instalar app") ---- */
+/* ---- PWA: manifesto com o logo GPX Apps (permite "Instalar app") ---- */
 (function(){
-  function icone(n){const c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d');
-    x.fillStyle='#0f172a';x.fillRect(0,0,n,n);
-    const g=x.createLinearGradient(0,0,n,n);g.addColorStop(0,'#22d3ee');g.addColorStop(1,'#a78bfa');
-    x.fillStyle=g;x.font='800 '+Math.round(n*.36)+'px "Plus Jakarta Sans",Arial,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('GPX',n/2,n*.47);
-    x.fillStyle='#94a3c4';x.font='700 '+Math.round(n*.11)+'px Arial,sans-serif';x.fillText('ADMIN',n/2,n*.72);
-    return c.toDataURL('image/png');}
-  const i192=icone(192),i512=icone(512);
-  document.getElementById('appleIcon').href=i192;
-  const base=location.href.split(/[?#]/)[0];
+  const o=location.origin,base=location.href.split(/[?#]/)[0];
   const m={name:'GPX Apps · Administração',short_name:'GPX Admin',id:base,start_url:base,scope:base,display:'standalone',
-    background_color:'#0b1120',theme_color:'#0b1120',
-    icons:[{src:i192,sizes:'192x192',type:'image/png',purpose:'any'},{src:i512,sizes:'512x512',type:'image/png',purpose:'any'},{src:i512,sizes:'512x512',type:'image/png',purpose:'maskable'}]};
+    background_color:'#111827',theme_color:'#111827',
+    icons:[{src:o+'/icons/logo-192.png',sizes:'192x192',type:'image/png',purpose:'any'},{src:o+'/icons/logo-512.png',sizes:'512x512',type:'image/png',purpose:'any'},
+      {src:o+'/icons/maskable-192.png',sizes:'192x192',type:'image/png',purpose:'maskable'},{src:o+'/icons/maskable-512.png',sizes:'512x512',type:'image/png',purpose:'maskable'}]};
   document.getElementById('manifestLink').href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}));
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
 })();
