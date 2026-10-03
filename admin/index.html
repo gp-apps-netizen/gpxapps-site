@@ -53,6 +53,9 @@ h2{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ac
 .small-grid b{font-size:.9rem}
 footer{margin-top:30px;text-align:center;color:var(--mut);font-size:.8rem}
 </style>
+<link rel="manifest" id="manifestLink">
+<link rel="apple-touch-icon" id="appleIcon">
+<meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 <div class="wrap">
@@ -173,6 +176,25 @@ $("telaLogin").addEventListener("submit", async e => {
 });
 
 $("btnSair").addEventListener("click", () => signOut(auth));
+</script>
+<script>
+/* ---- PWA: ícone, manifesto e service worker (permite "Instalar app") ---- */
+(function(){
+  function icone(n){const c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d');
+    x.fillStyle='#0f172a';x.fillRect(0,0,n,n);
+    const g=x.createLinearGradient(0,0,n,n);g.addColorStop(0,'#22d3ee');g.addColorStop(1,'#a78bfa');
+    x.fillStyle=g;x.font='800 '+Math.round(n*.36)+'px "Plus Jakarta Sans",Arial,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('GPX',n/2,n*.47);
+    x.fillStyle='#94a3c4';x.font='700 '+Math.round(n*.11)+'px Arial,sans-serif';x.fillText('ADMIN',n/2,n*.72);
+    return c.toDataURL('image/png');}
+  const i192=icone(192),i512=icone(512);
+  document.getElementById('appleIcon').href=i192;
+  const base=location.href.split(/[?#]/)[0];
+  const m={name:'GPX Apps · Administração',short_name:'GPX Admin',id:base,start_url:base,scope:base,display:'standalone',
+    background_color:'#0b1120',theme_color:'#0b1120',
+    icons:[{src:i192,sizes:'192x192',type:'image/png',purpose:'any'},{src:i512,sizes:'512x512',type:'image/png',purpose:'any'},{src:i512,sizes:'512x512',type:'image/png',purpose:'maskable'}]};
+  document.getElementById('manifestLink').href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}));
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(function(){});
+})();
 </script>
 </body>
 </html>
